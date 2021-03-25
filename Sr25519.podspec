@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   s.name             = 'Sr25519'
   s.version          = '0.0.1'
-  s.summary          = 'Swift APIs for Polkadot and any Substrate-based chain.'
+  s.summary          = 'Swift wrapper for Rust sr25519 library'
 
   s.homepage         = 'https://github.com/tesseract-one/sr25519.swift'
 

@@ -7,7 +7,7 @@ Pod::Spec.new do |s|
 
   s.license          = { :type => 'Apache 2.0', :file => 'LICENSE' }
   s.author           = { 'Tesseract Systems, Inc.' => 'info@tesseract.one' }
-  s.source           = { :http => 'https://github.com/tesseract-one/sr25519.swift/releases/', :sha256 => '' }
+  s.source           = { :http => "https://github.com/tesseract-one/sr25519.swift/releases/download/#{s.version.to_s}/CSr25519.Pods-Binary.zip", :sha256 => 'ba0ae8d395fd559845df77f1e055545501c5ef43afaf37f2172367dcdd0ae473' }
 
   s.ios.deployment_target = '10.0'
   s.osx.deployment_target = '10.12'

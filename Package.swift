@@ -45,7 +45,7 @@ var package = Package(
         package.targets.append(
             .binaryTarget(
                 name: "CSr25519",
-                url: "https://localhost:4443/CSr25519.SPM-Binary.zip",
+                url: "https://github.com/tesseract-one/sr25519.swift/releases/download/0.0.1/CSr25519.SPM-Binary.zip",
                 checksum: "0c513d764300e17f99aaeb0ee117b1d1fb209245733af384776ab32e21ce5a74")
         )
     }
