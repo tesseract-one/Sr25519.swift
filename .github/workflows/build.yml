@@ -2,7 +2,7 @@ name: Build & Tests
 on: [push, pull_request]
 jobs:
   macos:
-    runs-on: macos-latest
+    runs-on: macos-11.0
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -34,7 +34,7 @@ jobs:
       options: --cap-add=SYS_PTRACE --security-opt seccomp=unconfined --security-opt apparmor=unconfined
     steps:
       - name: Ubuntu Packages
-        run: apt-get update && apt-get install software-properties-common && add-apt-repository -y ppa:git-core/ppa && apt-get update && apt-get upgrade -y git && apt-get install -y wget curl
+        run: apt-get update && apt-get install -y software-properties-common && add-apt-repository -y ppa:git-core/ppa && apt-get update && apt-get upgrade -y git && apt-get install -y wget curl
       - name: Checkout
         uses: actions/checkout@v2
         with:
