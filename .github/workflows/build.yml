@@ -6,6 +6,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          submodules: recursive
       - name: Select Xcode
         run: sudo xcode-select -s /Applications/Xcode_12.4.app
       - name: Setup | Rust
@@ -32,6 +34,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - name: Install wget and curl
+        run: sudo apt-get install wget curl
       - name: Setup | Rust
         uses: ATiltedTree/setup-rust@v1
         with:
