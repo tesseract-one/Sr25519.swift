@@ -46,6 +46,6 @@ jobs:
         env:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: true
       - name: Building Rust
-        run: bash scripts/build_binary_linux.sh binaries
+        run: mkdir -p binaries && bash scripts/build_binary_linux.sh binaries
       - name: Build and Test
         run: swift test -Xlinker -Lbinaries/lib -Xcc -Ibinaries/include
