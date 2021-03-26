@@ -7,7 +7,6 @@ HEADERS_DIR="${SOURCES_DIR}/include/sr25519"
 OUTPUT_DIR="binaries"
 FRAMEWORK_NAME="CSr25519"
 MODULE_MAP="scripts/module.modulemap"
-BUILD_TARGETS="ios::arm64:aarch64-apple-ios ios:simulator:arm64,x86_64:aarch64-apple-ios,x86_64-apple-ios macos::arm64,x86_64:aarch64-apple-darwin,x86_64-apple-darwin"
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 ROOT_DIR="${DIR}/.."
@@ -104,6 +103,12 @@ if [ "$1" == "debug" ]; then
 else
   RELEASE="--release"
   CONFIGURATION="release"
+fi
+
+if [ "$2" == "no-arm64" ]; then
+  BUILD_TARGETS="ios::arm64:aarch64-apple-ios ios:simulator:arm64,x86_64:aarch64-apple-ios,x86_64-apple-ios macos::x86_64:x86_64-apple-darwin"
+else
+  BUILD_TARGETS="ios::arm64:aarch64-apple-ios ios:simulator:arm64,x86_64:aarch64-apple-ios,x86_64-apple-ios macos::arm64,x86_64:aarch64-apple-darwin,x86_64-apple-darwin"
 fi
 
 XCFRAMEWORK_PATH="${ROOT_DIR}/${OUTPUT_DIR}/${FRAMEWORK_NAME}.xcframework"

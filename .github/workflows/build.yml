@@ -2,7 +2,7 @@ name: Build & Tests
 on: [push, pull_request]
 jobs:
   macos:
-    runs-on: macos-11.0
+    runs-on: macos-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -18,7 +18,7 @@ jobs:
       - name: Installing cargo-lipo
         run: cargo install cargo-lipo
       - name: Building XCFramework
-        run: bash scripts/build_binary_macos.sh
+        run: bash scripts/build_binary_macos.sh release no-arm64
       - name: Patching Package.swift for testing
         run: sed -i '' 's/let[[:blank:]]useLocalBinary[[:blank:]]=[[:blank:]]false/let useLocalBinary = true/g' Package.swift
       - name: Build and Test SPM
