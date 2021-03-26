@@ -3,7 +3,7 @@ set -e
 
 LIB_NAME="sr25519crust"
 SOURCES_DIR="rust"
-HEADERS_DIR="${SOURCES_DIR}/include"
+HEADERS_DIR="include"
 OUTPUT_DIR="$( cd "$1" && pwd )"
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -31,6 +31,6 @@ cd "${ROOT_DIR}/${SOURCES_DIR}"
 cargo build --lib $RELEASE
 
 cp -f "target/${TARGET_PATH}/${CONFIGURATION}/lib${LIB_NAME}."* "${OUTPUT_DIR}/lib/"
-cp -fr "${HEADERS_DIR}/"* "${OUTPUT_DIR}/include/"
+cp -fr "${HEADERS_DIR}"/* "${OUTPUT_DIR}/include/"
 
 exit 0
