@@ -14,14 +14,14 @@ cd "${ROOT_DIR}/${BINARIES_DIR}"
 
 rm -f "${ROOT_DIR}/${OUTPUT_DIR}"/*.zip
 
+cp -f "${ROOT_DIR}/LICENSE" "${ROOT_DIR}/${OUTPUT_DIR}"/
+
 for frmwk in ./*.xcframework; do
   name="${frmwk%.*}"
-  PODS_ZIP_FILE="${ROOT_DIR}/${OUTPUT_DIR}/${name}.Pods-Binary.zip"
-  SPM_ZIP_FILE="${ROOT_DIR}/${OUTPUT_DIR}/${name}.SPM-Binary.zip"
-  zip -r "${PODS_ZIP_FILE}" "${frmwk}"
-  zip -r "${SPM_ZIP_FILE}" "${frmwk}"/*
-  shasum -a 256 --tag "${PODS_ZIP_FILE}"
-  swiftsum=$(swift package compute-checksum "${SPM_ZIP_FILE}")
+  ZIP_FILE="${ROOT_DIR}/${OUTPUT_DIR}/${name}.binaries.zip"
+  zip -r "${ZIP_FILE}" "${frmwk}" LICENSE
+  shasum -a 256 --tag "${ZIP_FILE}"
+  swiftsum=$(swift package compute-checksum "${ZIP_FILE}")
   echo "Swift checksum: ${swiftsum}"
 done
 
