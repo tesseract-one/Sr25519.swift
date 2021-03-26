@@ -34,7 +34,7 @@ import Security
 private func generate_seed() throws -> Data {
     var bytes = [UInt8](repeating: 0, count: Seed.size)
     let status = SecRandomCopyBytes(kSecRandomDefault, bytes.count, &bytes)
-    
+
     guard status == errSecSuccess else {
         throw Sr25519Error.randomGeneratorError(code: Int(status))
     }
@@ -42,5 +42,15 @@ private func generate_seed() throws -> Data {
 }
 
 #else
+import Glibc
 
+private func generate_seed() throws -> Data {
+    var bytes = [UInt8](repeating: 0, count: Seed.size)
+    
+    guard getentropy(&bytes, UInt(Seed.size)) == 0 else {
+        throw Sr25519Error.randomGeneratorError(code: Int(errno))
+    }
+    
+    return Data(bytes)
+}
 #endif
