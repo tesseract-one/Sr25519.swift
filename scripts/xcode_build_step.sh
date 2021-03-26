@@ -15,11 +15,12 @@ OUTPUT_DIR=`echo "${CONFIGURATION}" | tr '[:upper:]' '[:lower:]'`
 
 cd "${ROOT_DIR}"
 
+export LIBRARY_PATH="${SDKROOT}/usr/lib:${LIBRARY_PATH}"
 cargo lipo --xcode-integ
 
 mkdir -p "${CONFIGURATION_BUILD_DIR}/${MODULE_NAME}"
 
-cp -f "${ROOT_DIR}"/target/universal/"${OUTPUT_DIR}"/*.a "${CONFIGURATION_BUILD_DIR}/${MODULE_NAME}"/
+cp -f "${ROOT_DIR}"/target/universal/"${OUTPUT_DIR}"/*.a "${CONFIGURATION_BUILD_DIR}"/
 cp -rf "${ROOT_DIR}"/include/sr25519/* "${CONFIGURATION_BUILD_DIR}/${MODULE_NAME}"/
 cp -f "${SCRIPT_DIR}"/module.modulemap "${CONFIGURATION_BUILD_DIR}/${MODULE_NAME}"/
 

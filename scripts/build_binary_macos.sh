@@ -13,6 +13,29 @@ ROOT_DIR="${DIR}/.."
 
 HAS_CARGO_IN_PATH=`command -v cargo >/dev/null 2>&1; echo $?`
 
+export MACOSX_DEPLOYMENT_TARGET=10.12
+export IPHONEOS_DEPLOYMENT_TARGET=11
+export TVOS_DEPLOYMENT_TARGET=11
+
+readonly SDK_MAPPINGS=(
+  'ios-:iphoneos'
+  'ios-simulator:iphonesimulator'
+  'tvos-:appletvos'
+  'tvos-simulator:appletvsimulator'
+  'watchos-:watchos'
+  'watchos-simulator:watchsimulator'
+  'macos-:macosx'
+)
+
+function get_sdk_name() {
+  for mapping in ${SDK_MAPPINGS[@]}; do
+      IFS=: read -r platform sdk <<< "$mapping"
+      if [ "$platform" == "$1-$2" ]; then
+        echo "$sdk"
+        break
+      fi
+  done
+}
 
 function print_plist_header() {
   echo '<?xml version="1.0" encoding="UTF-8"?>' > $1
@@ -106,9 +129,21 @@ else
 fi
 
 if [ "$2" == "no-arm64" ]; then
-  BUILD_TARGETS="ios::arm64:aarch64-apple-ios ios:simulator:arm64,x86_64:aarch64-apple-ios,x86_64-apple-ios tvos::arm64:aarch64-apple-ios tvos:simulator:arm64,x86_64:aarch64-apple-ios,x86_64-apple-ios macos::x86_64:x86_64-apple-darwin"
+  readonly BUILD_TARGETS=(
+    'ios::arm64:aarch64-apple-ios'
+    'ios:simulator:arm64,x86_64:aarch64-apple-ios,x86_64-apple-ios'
+    'tvos::arm64:aarch64-apple-ios'
+    'tvos:simulator:arm64,x86_64:aarch64-apple-ios,x86_64-apple-ios'
+    'macos::x86_64:x86_64-apple-darwin'
+  )
 else
-  BUILD_TARGETS="ios::arm64:aarch64-apple-ios ios:simulator:arm64,x86_64:aarch64-apple-ios,x86_64-apple-ios tvos::arm64:aarch64-apple-ios tvos:simulator:arm64,x86_64:aarch64-apple-ios,x86_64-apple-ios macos::arm64,x86_64:aarch64-apple-darwin,x86_64-apple-darwin"
+  readonly BUILD_TARGETS=(
+    'ios::arm64:aarch64-apple-ios'
+    'ios:simulator:arm64,x86_64:aarch64-apple-ios,x86_64-apple-ios'
+    'tvos::arm64:aarch64-apple-ios'
+    'tvos:simulator:arm64,x86_64:aarch64-apple-ios,x86_64-apple-ios'
+    'macos::arm64,x86_64:aarch64-apple-darwin,x86_64-apple-darwin'
+  )
 fi
 
 XCFRAMEWORK_PATH="${ROOT_DIR}/${OUTPUT_DIR}/${FRAMEWORK_NAME}.xcframework"
@@ -123,8 +158,10 @@ print_plist_header "${XCFRAMEWORK_PATH}/Info.plist"
 mkdir -p "${ROOT_DIR}/${HEADERS_DIR}"
 cp -f "${ROOT_DIR}/${MODULE_MAP}" "${ROOT_DIR}/${HEADERS_DIR}/"
 
-for BTARGET in $BUILD_TARGETS; do
+for BTARGET in ${BUILD_TARGETS[@]}; do
   IFS=: read -r platform variant arch target <<< "$BTARGET"
+  SDK_NAME=$(get_sdk_name "$platform" "$variant")
+  export SDKROOT="$(xcrun -sdk "$SDK_NAME" --show-sdk-path)"
   TARGET_PATH="${target}"
   if [[ "$target" == *,* ]]; then
     TARGET_PATH="universal"

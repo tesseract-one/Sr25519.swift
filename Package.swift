@@ -39,8 +39,8 @@ var package = Package(
         package.targets.append(
             .binaryTarget(
                 name: "CSr25519",
-                url: "https://github.com/tesseract-one/sr25519.swift/releases/download/0.0.1/CSr25519.binaries.zip",
-                checksum: "af06f868629ea45edb36645f63d5e216fd0d2b2067aef990aba3af1171cfa303")
+                url: "https://github.com/tesseract-one/sr25519.swift/releases/download/0.0.2/CSr25519.binaries.zip",
+                checksum: "30046d420324635894d1ed94a6f077846a9cf2cad27f235ec883cee3ac743037")
         )
     }
 #endif

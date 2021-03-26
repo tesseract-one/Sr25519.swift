@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'Sr25519'
-  s.version          = '0.0.1'
+  s.version          = '0.0.2'
   s.summary          = 'Swift wrapper for Rust sr25519 library'
 
   s.homepage         = 'https://github.com/tesseract-one/sr25519.swift'
@@ -21,6 +21,10 @@ Pod::Spec.new do |s|
     ss.source_files = 'Sources/Sr25519/*.swift'
 
     ss.dependency 'Sr25519-Binaries', '~> 0.0.1'
+    
+    ss.pod_target_xcconfig = {
+      'LIBRARY_SEARCH_PATHS' => '$(inherited) "${PODS_XCFRAMEWORKS_BUILD_DIR}/CSr25519"'
+    }
     
     ss.test_spec 'Sr25519Tests' do |test_spec|
       test_spec.source_files = 'Tests/Sr25519Tests/**/*.swift'

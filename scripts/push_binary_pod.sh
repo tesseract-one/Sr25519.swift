@@ -11,7 +11,7 @@ cd "${ROOT_DIR}"
 TRUNK_VERSION="$(pod trunk info "${LIB_NAME}" | grep -o -E "[0-9]+\.[0-9]+\.[0-9]+" | tail -n 1)"
 PODSPEC_VERSION="$(grep -o -E "[0-9]+\.[0-9]+\.[0-9]+" "${LIB_NAME}.podspec")"
 
-if [ "$TRUNK_VERSION" -ne "$PODSPEC_VERSION" ]; then
+if [ "$TRUNK_VERSION" != "$PODSPEC_VERSION" ]; then
   pod trunk push "${LIB_NAME}.podspec"
 fi
 
