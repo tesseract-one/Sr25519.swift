@@ -3,11 +3,7 @@
 
 import PackageDescription
 
-#if LOCALBINARY
-    let useLocalBinary = true
-#else
-    let useLocalBinary = false
-#endif
+let useLocalBinary = false
 
 var package = Package(
     name: "Sr25519",
@@ -29,10 +25,7 @@ var package = Package(
 
 #if os(Linux)
     package.targets.append(
-        .target(
-            name: "CSr25519",
-            dependencies: [],
-            linkerSettings: [.linkedLibrary("sr25519crust")])
+        .systemLibrary(name: "CSr25519")
     )
 #else
     if useLocalBinary {
