@@ -30,7 +30,7 @@ cd "${ROOT_DIR}/${SOURCES_DIR}"
   
 cargo build --lib $RELEASE
 
-cp -f "target/${TARGET_PATH}/${CONFIGURATION}/lib${LIB_NAME}."* "${OUTPUT_DIR}/lib/"
+cp -f "target/${TARGET_PATH}/${CONFIGURATION}/lib${LIB_NAME}.a" "${OUTPUT_DIR}/lib/"
 cp -fr "${HEADERS_DIR}"/* "${OUTPUT_DIR}/include/"
 
 exit 0
