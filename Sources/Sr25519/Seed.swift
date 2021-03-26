@@ -47,7 +47,7 @@ import Glibc
 private func generate_seed() throws -> Data {
     var bytes = [UInt8](repeating: 0, count: Seed.size)
     
-    guard getentropy(&bytes, UInt(Seed.size)) == 0 else {
+    guard getentropy(&bytes, Seed.size) == 0 else {
         throw Sr25519Error.randomGeneratorError(code: Int(errno))
     }
     
