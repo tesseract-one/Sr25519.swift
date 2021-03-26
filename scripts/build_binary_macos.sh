@@ -106,9 +106,9 @@ else
 fi
 
 if [ "$2" == "no-arm64" ]; then
-  BUILD_TARGETS="ios::arm64:aarch64-apple-ios ios:simulator:arm64,x86_64:aarch64-apple-ios,x86_64-apple-ios macos::x86_64:x86_64-apple-darwin"
+  BUILD_TARGETS="ios::arm64:aarch64-apple-ios ios:simulator:arm64,x86_64:aarch64-apple-ios,x86_64-apple-ios tvos::arm64:aarch64-apple-ios tvos:simulator:arm64,x86_64:aarch64-apple-ios,x86_64-apple-ios macos::x86_64:x86_64-apple-darwin"
 else
-  BUILD_TARGETS="ios::arm64:aarch64-apple-ios ios:simulator:arm64,x86_64:aarch64-apple-ios,x86_64-apple-ios macos::arm64,x86_64:aarch64-apple-darwin,x86_64-apple-darwin"
+  BUILD_TARGETS="ios::arm64:aarch64-apple-ios ios:simulator:arm64,x86_64:aarch64-apple-ios,x86_64-apple-ios tvos::arm64:aarch64-apple-ios tvos:simulator:arm64,x86_64:aarch64-apple-ios,x86_64-apple-ios macos::arm64,x86_64:aarch64-apple-darwin,x86_64-apple-darwin"
 fi
 
 XCFRAMEWORK_PATH="${ROOT_DIR}/${OUTPUT_DIR}/${FRAMEWORK_NAME}.xcframework"

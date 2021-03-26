@@ -7,6 +7,7 @@ let useLocalBinary = false
 
 var package = Package(
     name: "Sr25519",
+    platforms: [.iOS(.v11), .macOS(.v10_12), .tvOS(.v11)],
     products: [
         .library(
             name: "Sr25519",
@@ -39,7 +40,7 @@ var package = Package(
             .binaryTarget(
                 name: "CSr25519",
                 url: "https://github.com/tesseract-one/sr25519.swift/releases/download/0.0.1/CSr25519.SPM-Binary.zip",
-                checksum: "0c513d764300e17f99aaeb0ee117b1d1fb209245733af384776ab32e21ce5a74")
+                checksum: "47c8e400b6d1c0f15e8c0324a684446cfcf4aa854b5d2eb540e4d4688442b8a0")
         )
     }
 #endif
