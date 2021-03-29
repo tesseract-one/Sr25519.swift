@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'Sr25519'
-  s.version          = '0.0.2'
+  s.version          = '0.0.3'
   s.summary          = 'Swift wrapper for Rust sr25519 library'
 
   s.homepage         = 'https://github.com/tesseract-one/sr25519.swift'
@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
 
   s.ios.deployment_target = '11.0'
   s.osx.deployment_target = '10.12'
-  s.tvos.deployment_target = '11.0'
+  # s.tvos.deployment_target = '11.0'
   
   s.swift_versions = ['5.3']
   

@@ -15,8 +15,6 @@ jobs:
         with:
           rust-version: stable
           targets: aarch64-apple-ios x86_64-apple-ios aarch64-apple-darwin x86_64-apple-darwin
-      - name: Installing cargo-lipo
-        run: cargo install cargo-lipo
       - name: Building XCFramework
         run: bash scripts/build_binary_macos.sh release no-arm64
       - name: Patching Package.swift for testing

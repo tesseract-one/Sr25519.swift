@@ -17,8 +17,6 @@ jobs:
         with:
           rust-version: stable
           targets: aarch64-apple-ios x86_64-apple-ios aarch64-apple-darwin x86_64-apple-darwin
-      - name: Installing cargo-lipo
-        run: cargo install cargo-lipo
       - name: Uploading binaries pod if needed
         run: bash scripts/push_binary_pod.sh
         env:

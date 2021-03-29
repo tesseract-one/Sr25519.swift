@@ -7,7 +7,7 @@ let useLocalBinary = false
 
 var package = Package(
     name: "Sr25519",
-    platforms: [.iOS(.v11), .macOS(.v10_12), .tvOS(.v11)],
+    platforms: [.iOS(.v11), .macOS(.v10_12)],
     products: [
         .library(
             name: "Sr25519",
@@ -39,8 +39,8 @@ var package = Package(
         package.targets.append(
             .binaryTarget(
                 name: "CSr25519",
-                url: "https://github.com/tesseract-one/sr25519.swift/releases/download/0.0.2/CSr25519.binaries.zip",
-                checksum: "30046d420324635894d1ed94a6f077846a9cf2cad27f235ec883cee3ac743037")
+                url: "https://github.com/tesseract-one/sr25519.swift/releases/download/0.0.3/CSr25519.binaries.zip",
+                checksum: "08fcaf9e09b9c53a1823cc6131ed2d9b55f6ba595e4fd39cee7f77a51973921a")
         )
     }
 #endif
