@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'Sr25519-Binaries'
-  s.version          = '0.0.3'
+  s.version          = '0.0.4'
   s.summary          = 'Compiled Rust files for sr25519.'
 
   s.homepage         = 'https://github.com/tesseract-one/sr25519.swift'
