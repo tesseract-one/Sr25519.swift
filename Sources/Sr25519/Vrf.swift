@@ -39,12 +39,12 @@ public struct VrfSignature: Hashable, Equatable {
         self.proof = proof
     }
     
-    public func verify(for message: Data, key: PublicKey, threshold: VrfThreshold) throws -> Bool {
-        try key.vrfVerify(message: message, signature: self, threshold: threshold)
+    public func verify(for message: Data, key: PublicKey, threshold: VrfThreshold) -> Bool {
+        key.vrfVerify(message: message, signature: self, threshold: threshold)
     }
     
-    public func verify(for message: Data, pair: KeyPair, threshold: VrfThreshold) throws -> Bool {
-        try pair.vrfVerify(message: message, signature: self, threshold: threshold)
+    public func verify(for message: Data, pair: KeyPair, threshold: VrfThreshold) -> Bool {
+        pair.vrfVerify(message: message, signature: self, threshold: threshold)
     }
     
     internal func withRawData<T>(
@@ -84,4 +84,48 @@ public struct VrfThreshold: Hashable, Equatable {
     }
     
     public static let size: Int = Int(SR25519_VRF_THRESHOLD_SIZE)
+}
+
+
+extension KeyPair {
+    public func vrfSign(message: Data, ifLessThan limit: VrfThreshold) throws -> (signature: VrfSignature, isLess: Bool) {
+        var out = [UInt8](repeating: 0, count: VrfSignature.size)
+        var pair = keyPair
+        let res = message.withUnsafeBytes { mes in
+            limit.data.withUnsafeBytes { limit -> VrfResult in
+                let message = mes.bindMemory(to: UInt8.self)
+                let limptr = limit.bindMemory(to: UInt8.self).baseAddress
+                return sr25519_vrf_sign_if_less(&out, &pair, message.baseAddress, UInt(message.count), limptr)
+            }
+        }
+        guard res.result == Ok else {
+            throw Sr25519Error.vrfError(code: res.result.rawValue)
+        }
+        return try (VrfSignature(data: Data(out)), res.is_less)
+    }
+    
+    public func vrfVerify(message: Data, signature: VrfSignature, threshold: VrfThreshold) -> Bool {
+        publicKey.vrfVerify(message: message, signature: signature, threshold: threshold)
+    }
+}
+
+extension PublicKey {
+    public func vrfVerify(message: Data, signature: VrfSignature, threshold: VrfThreshold) -> Bool {
+        let res = key.withUnsafeBytes { key in
+             message.withUnsafeBytes { mes in
+                threshold.data.withUnsafeBytes { thr in
+                    signature.withRawData { (output, proof) -> VrfResult in
+                        let keyptr = key.bindMemory(to: UInt8.self).baseAddress
+                        let message = mes.bindMemory(to: UInt8.self)
+                        let thrptr = thr.bindMemory(to: UInt8.self).baseAddress
+                        return sr25519_vrf_verify(
+                            keyptr, message.baseAddress, UInt(message.count),
+                            output, proof, thrptr
+                        )
+                    }
+                }
+            }
+        }
+        return res.result == Ok && res.is_less
+    }
 }

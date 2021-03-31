@@ -47,27 +47,5 @@ public struct PublicKey: Hashable, Equatable {
         return try! PublicKey(data: Data(out))
     }
     
-    public func vrfVerify(message: Data, signature: VrfSignature, threshold: VrfThreshold) throws -> Bool {
-        let res = key.withUnsafeBytes { key in
-             message.withUnsafeBytes { mes in
-                threshold.data.withUnsafeBytes { thr in
-                    signature.withRawData { (output, proof) -> VrfResult in
-                        let keyptr = key.bindMemory(to: UInt8.self).baseAddress
-                        let message = mes.bindMemory(to: UInt8.self)
-                        let thrptr = thr.bindMemory(to: UInt8.self).baseAddress
-                        return sr25519_vrf_verify(
-                            keyptr, message.baseAddress, UInt(message.count),
-                            output, proof, thrptr
-                        )
-                    }
-                }
-            }
-        }
-        guard res.result == Ok else {
-            throw Sr25519Error.vrfError(code: res.result.rawValue)
-        }
-        return res.is_less
-    }
-    
     public static let size: Int = Int(SR25519_PUBLIC_SIZE)
 }

@@ -69,27 +69,7 @@ public struct KeyPair: Hashable, Equatable {
         _public.verify(message: message, signature: signature)
     }
     
-    public func vrfSign(message: Data, ifLessThan limit: VrfThreshold) throws -> VrfSignature {
-        var out = [UInt8](repeating: 0, count: VrfSignature.size)
-        var pair = keyPair
-        let res = message.withUnsafeBytes { mes in
-            limit.data.withUnsafeBytes { limit -> VrfResult in
-                let message = mes.bindMemory(to: UInt8.self)
-                let limptr = limit.bindMemory(to: UInt8.self).baseAddress
-                return sr25519_vrf_sign_if_less(&out, &pair, message.baseAddress, UInt(message.count), limptr)
-            }
-        }
-        guard res.result == Ok && res.is_less else {
-            throw Sr25519Error.vrfError(code: res.result.rawValue)
-        }
-        return try VrfSignature(data: Data(out))
-    }
-    
-    public func vrfVerify(message: Data, signature: VrfSignature, threshold: VrfThreshold) throws -> Bool {
-        try _public.vrfVerify(message: message, signature: signature, threshold: threshold)
-    }
-    
-    private var keyPair: [UInt8] {
+    internal var keyPair: [UInt8] {
         var pair = [UInt8]()
         pair.reserveCapacity(Self.size)
         pair.append(contentsOf: _private)
