@@ -14,7 +14,7 @@ Swift wrapper for [C bindings](https://github.com/Warchant/sr25519-crust) of shn
 
 Sr25519 deploys to macOS 10.12, iOS 11 and Linux. It has been tested on the latest OS releases only however, as the module uses very few platform-provided APIs, there should be very few issues with earlier versions.
 
-Sr25519 uses only random plafrom specific API, so it should be easy to port it to other operating systems.
+Sr25519 uses only random number generator plafrom specific API, so it should be easy to port it to other operating systems.
 
 Setup instructions:
 
@@ -31,7 +31,7 @@ Setup instructions:
     pod 'Sr25519', '~> 0.1'
     ```
   
-- **CocoaPods with Rust build:**
+- **CocoaPods with Rust sources build:**
   
   If you want to build Rust part from sources add this in your `Podfile`:
     ```Ruby
@@ -44,15 +44,14 @@ Setup instructions:
 
 - **Linux:**
   
-  Linux supported through SPM. But for build you have to build Rust library manually. You can build it using `scripts/build_libray_linux.sh` script in this repository.
+  Linux supported through `SPM`. For build you have to build Rust library manually. You can build it using `scripts/build_libray_linux.sh` script from this repository.
   ```sh
-  ./scripts/build_libray_linux.sh SOME_INSTALL_PATH
+  ./scripts/build_libray_linux.sh "SOME_INSTALL_PATH"
   ```
   And provide path to it as parameters to SPM for build.
   ```sh
-  swift build -Xlinker -LSOME_INSTALL_PATH/lib -Xcc -ISOME_INSTALL_PATH/include
+  swift build -Xlinker -L"SOME_INSTALL_PATH/lib" -Xcc -I"SOME_INSTALL_PATH/include"
   ```
-
 
 ## Usage Examples
 
@@ -140,4 +139,4 @@ print("Is valid:", valid)
 
 ## License
 
-ScaleCodec can be used, distributed and modified under [the Apache 2.0 license](LICENSE).
+Sr25519.swift can be used, distributed and modified under [the Apache 2.0 license](LICENSE).
