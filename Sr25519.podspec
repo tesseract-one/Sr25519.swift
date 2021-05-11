@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'Sr25519'
-  s.version          = '0.1.0'
+  s.version          = '0.1.1'
   s.summary          = 'Swift wrapper for sr25519-donna C library'
   
   s.description      = <<-DESC
