@@ -38,7 +38,6 @@ extension Sr25519VrfTests {
     //   `swift test --generate-linuxmain`
     // to regenerate.
     static let __allTests__Sr25519VrfTests = [
-        ("testResultNotLess", testResultNotLess),
         ("testSignAndCheck", testSignAndCheck),
         ("testVerify", testVerify),
     ]
