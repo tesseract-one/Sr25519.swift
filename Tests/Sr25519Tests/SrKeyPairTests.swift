@@ -10,23 +10,25 @@ import XCTest
 
 final class Sr25519KeyPairTests: XCTestCase {
     let cases = [
-        (Data(repeating: 0, count: 32), "caa835781b15c7706f65b71f7a58c807ab360faed6440fb23e0f4c52e930de0a0a6a85eaa642dac835424b5d7c8d637c00408c7a73da672b7f498521420b6dd3def12e42f3e487e9b14095aa8d5cc16a33491f1b50dadcf8811d1480f3fa8627".hexData!),
-        ("12345678901234567890123456789012".data(using: .utf8)!, "1ec20c6cb85bf4c7423b95752b70c312e6ae9e5701ffb310f0a9019d9c041e0af98d66f39442506ff947fd911f18c7a7a5da639a63e8d3b4e233f74143d951c1741c08a06f41c596608f6774259bd9043304adfa5d3eea62760bd9be97634d63".hexData!),
+        (Data(repeating: 0, count: 32), "def12e42f3e487e9b14095aa8d5cc16a33491f1b50dadcf8811d1480f3fa8627".hexData!),
+        ("12345678901234567890123456789012".data(using: .utf8)!, "741c08a06f41c596608f6774259bd9043304adfa5d3eea62760bd9be97634d63".hexData!),
+        ("b8f820bb54c22e95076f220ed25373e5c178234aa6c211d29271244b947e3ff3".hexData!,
+         "92ea19a4dcd694e8c39c3276c11da59049a91cd527e99777f47181a480a61c1d".hexData!),
         ("fac7959dbfe72f052e5a0c3c8d6530f202b02fd8f9f5ca3580ec8deb7797479e".hexData!,
-         "05d65584630d16cd4af6d0bec10f34bb504a5dcb62dba2122d49f5a663763d0afd190cce74df356432b410bd64682309d6dedb27c76845daf388557cbac3ca3446ebddef8cd9bb167dc30878d7113b7e168e6f0646beffd77d69d39bad76b47a".hexData!)
+         "46ebddef8cd9bb167dc30878d7113b7e168e6f0646beffd77d69d39bad76b47a".hexData!)
     ]
     
     private func randomKeyPair() -> Sr25519KeyPair? {
-        cases.randomElement().flatMap { (_, kpData) in
-            try? Sr25519KeyPair(raw: kpData)
+        cases.randomElement().flatMap { (seed, _) in
+            try? Sr25519KeyPair(seed: Sr25519Seed(raw: seed))
         }
     }
     
     func testKeyPairFromSeed() {
-        for (seedData, expected) in cases {
+        for (seedData, pubData) in cases {
             let seed = AssertNoThrow(try Sr25519Seed(raw: seedData))
             let kp = seed.flatMap{Sr25519KeyPair(seed: $0)}
-            XCTAssertEqual(kp?.raw, expected)
+            XCTAssertEqual(kp?.publicKey.raw, pubData)
         }
     }
     

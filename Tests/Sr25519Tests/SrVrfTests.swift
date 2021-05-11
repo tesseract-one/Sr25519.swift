@@ -1,5 +1,5 @@
 //
-//  VrfTests.swift
+//  SrVrfTests.swift
 //  
 //
 //  Created by Yehor Popovych on 31.03.2021.

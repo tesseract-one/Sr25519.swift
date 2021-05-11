@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  Hex.swift
 //  
 //
 //  Created by Yehor Popovych on 08.05.2021.
