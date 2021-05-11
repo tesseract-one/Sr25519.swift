@@ -10,12 +10,12 @@ import XCTest
 
 final class Sr25519KeyPairTests: XCTestCase {
     let cases = [
-        (Data(repeating: 0, count: 32), "def12e42f3e487e9b14095aa8d5cc16a33491f1b50dadcf8811d1480f3fa8627".hexData!),
-        ("12345678901234567890123456789012".data(using: .utf8)!, "741c08a06f41c596608f6774259bd9043304adfa5d3eea62760bd9be97634d63".hexData!),
+        (Data(repeating: 0, count: 32), "def12e42f3e487e9b14095aa8d5cc16a33491f1b50dadcf8811d1480f3fa8627"),
+        ("12345678901234567890123456789012".data(using: .utf8)!, "741c08a06f41c596608f6774259bd9043304adfa5d3eea62760bd9be97634d63"),
         ("b8f820bb54c22e95076f220ed25373e5c178234aa6c211d29271244b947e3ff3".hexData!,
-         "92ea19a4dcd694e8c39c3276c11da59049a91cd527e99777f47181a480a61c1d".hexData!),
+         "92ea19a4dcd694e8c39c3276c11da59049a91cd527e99777f47181a480a61c1d"),
         ("fac7959dbfe72f052e5a0c3c8d6530f202b02fd8f9f5ca3580ec8deb7797479e".hexData!,
-         "46ebddef8cd9bb167dc30878d7113b7e168e6f0646beffd77d69d39bad76b47a".hexData!)
+         "46ebddef8cd9bb167dc30878d7113b7e168e6f0646beffd77d69d39bad76b47a")
     ]
     
     private func randomKeyPair() -> Sr25519KeyPair? {
@@ -28,7 +28,7 @@ final class Sr25519KeyPairTests: XCTestCase {
         for (seedData, pubData) in cases {
             let seed = AssertNoThrow(try Sr25519Seed(raw: seedData))
             let kp = seed.flatMap{Sr25519KeyPair(seed: $0)}
-            XCTAssertEqual(kp?.publicKey.raw, pubData)
+            XCTAssertEqual(kp?.publicKey.raw.hex, pubData)
         }
     }
     

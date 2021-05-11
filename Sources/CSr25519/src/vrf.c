@@ -5,7 +5,7 @@
 
 #define KUSAMA_VRF 1
 
-Sr25519SignatureResult vrf_sign(sr25519_vrf_io inout, sr25519_vrf_proof proof, sr25519_vrf_proof_batchable proof_batchable, const sr25519_keypair keypair, const merlin_transcript *t) {
+Sr25519SignatureResult vrf_sign(sr25519_vrf_io inout, sr25519_vrf_proof proof, sr25519_vrf_proof_batchable proof_batchable, const sr25519_keypair keypair, merlin_transcript *t) {
     sr25519_secret_key_key secret_key = {0};
     memcpy(secret_key, keypair, 32);
     sr25519_secret_key_nonce secret_nonce = {0};
@@ -107,7 +107,7 @@ Sr25519SignatureResult vrf_sign(sr25519_vrf_io inout, sr25519_vrf_proof proof, s
     return result;
 }
 
-Sr25519SignatureResult shorten_vrf(sr25519_vrf_proof proof, const sr25519_vrf_proof_batchable proof_batchable, const sr25519_public_key public, const merlin_transcript *t, const sr25519_vrf_output preout) {
+Sr25519SignatureResult shorten_vrf(sr25519_vrf_proof proof, const sr25519_vrf_proof_batchable proof_batchable, const sr25519_public_key public, merlin_transcript *t, const sr25519_vrf_output preout) {
     merlin_transcript_commit_bytes(t, (uint8_t *)"vrf-nm-pk", 9, public, 32);
     uint8_t b[64] = {0};
     merlin_transcript_challenge_bytes(t, (uint8_t *)"VRFHash", 7, b, 64);
@@ -156,7 +156,7 @@ Sr25519SignatureResult shorten_vrf(sr25519_vrf_proof proof, const sr25519_vrf_pr
     return result;
 }
 
-Sr25519SignatureResult vrf_verify(sr25519_vrf_io inout, sr25519_vrf_proof_batchable proof_batchable, const sr25519_public_key public, const merlin_transcript *t, const sr25519_vrf_output preout, const sr25519_vrf_proof proof) {
+Sr25519SignatureResult vrf_verify(sr25519_vrf_io inout, sr25519_vrf_proof_batchable proof_batchable, const sr25519_public_key public, merlin_transcript *t, const sr25519_vrf_output preout, const sr25519_vrf_proof proof) {
     uint8_t c[32] = {0};
     memcpy(c, proof, 32);
     uint8_t s[32] = {0};

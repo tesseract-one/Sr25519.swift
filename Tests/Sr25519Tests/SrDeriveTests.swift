@@ -18,8 +18,8 @@ final class Sr25519DeriveTests: XCTestCase {
         
         let derived = chainCode.flatMap{ keyPair?.derive(chainCode: $0, hard: true) }
         let actualPubKey = derived?.publicKey.raw
-        let expectedPubKey = "d43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d".hexData!
-        XCTAssertEqual(actualPubKey, expectedPubKey)
+        let expectedPubKey = "d43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d"
+        XCTAssertEqual(actualPubKey?.hex, expectedPubKey)
     }
     
     func testDeriveSoftKnown() {
@@ -31,7 +31,7 @@ final class Sr25519DeriveTests: XCTestCase {
         
         let derived = chainCode.flatMap{ keyPair?.derive(chainCode: $0, hard: false) }
         let actualPubKey = derived?.publicKey.raw
-        let expectedPubKey = "6ad6672fd4270be979cfe2e58955ce015fec7b68580db3d5c4955c7570ccb170".hexData!
-        XCTAssertEqual(actualPubKey, expectedPubKey)
+        let expectedPubKey = "6ad6672fd4270be979cfe2e58955ce015fec7b68580db3d5c4955c7570ccb170"
+        XCTAssertEqual(actualPubKey?.hex, expectedPubKey)
     }
 }

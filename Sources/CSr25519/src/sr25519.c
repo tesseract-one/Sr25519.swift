@@ -28,7 +28,7 @@ void multiply_scalar_bytes_by_cofactor(uint8_t *scalar, size_t scalar_len) {
     }
 }
 
-void expand_ed25519(sr25519_secret_key_key key, sr25519_secret_key_nonce nonce, sr25519_mini_secret_key mini_secret_key) {
+void expand_ed25519(sr25519_secret_key_key key, sr25519_secret_key_nonce nonce, const sr25519_mini_secret_key mini_secret_key) {
     uint8_t hash[64] = {0};
     sr25519_hash(hash, mini_secret_key, 32);
     memcpy(key, hash, 32);
@@ -71,7 +71,7 @@ void derive_scalar_and_chaincode(merlin_transcript *t, bignum256modm *scalar, sr
 
     uint8_t buf[64] = {0};
     merlin_transcript_challenge_bytes(t, (uint8_t *)"HDKD-scalar", 11, buf, 64);
-    expand256_modm(scalar, buf, 64);
+    expand256_modm(*scalar, buf, 64);
 
     merlin_transcript_challenge_bytes(t, (uint8_t *)"HDKD-chaincode", 14, chain_code_out, 32);
 }

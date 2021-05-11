@@ -380,11 +380,11 @@ void elligator_ristretto_flavor(ge25519 *P, const bignum25519 r0) {
     curve25519_mul(D, c_min_d_mul_r, r_add_d);
     uint8_t Ns_D_is_sq = curve25519_sqrt_ratio_i(s, Ns, D);
     curve25519_mul(s_prime, s, r0);
-    int8_t s_prime_is_pos = !bignum25519_is_negative(s_prime);
+    int8_t s_prime_is_pos = !bignum25519_is_negative((unsigned char*)s_prime);
     curve25519_neg(s_prime_neg, s_prime);
     curve25519_swap_conditional(s_prime, s_prime_neg, s_prime_is_pos);
     curve25519_swap_conditional(s, s_prime, !Ns_D_is_sq);
-    curve25519_move_conditional_bytes(c, r, !Ns_D_is_sq);
+    curve25519_move_conditional_bytes((uint8_t*)c, (uint8_t*)r, !Ns_D_is_sq);
     curve25519_sub_reduce(r_min_one, r, one);
     curve25519_mul(c_mul_r_min_one, c, r_min_one);
     curve25519_mul(c_mul_r_min_one_mul_d, c_mul_r_min_one, EDWARDS_D_MINUS_ONE_SQUARED);
