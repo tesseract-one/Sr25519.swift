@@ -24,10 +24,12 @@ Swift wrapper for sr25519-donna C library. Provides Sr25519 and Ed25519 wrappers
   
   s.subspec 'CSr25519' do |ss|
     ss.source_files = 'Sources/CSr25519/src/**/*.{h,c}'
-    ss.public_header_files = 'Sources/CSr25519/include/*.h'
+    ss.public_header_files = 'Sources/CSr25519/src/sr25519.h', 'Sources/CSr25519/src/sr25519-random*.h', 'Sources/CSr25519/src/ed25519-donna/ed25519.h'
     
     ss.pod_target_xcconfig = {
-      'GCC_PREPROCESSOR_DEFINITIONS' => '$(inherited) ED25519_CUSTOMRANDOM ED25519_CUSTOMHASH ED25519_NO_INLINE_ASM'
+      'GCC_PREPROCESSOR_DEFINITIONS' => '$(inherited) ED25519_CUSTOMRANDOM ED25519_CUSTOMHASH ED25519_NO_INLINE_ASM',
+      'GCC_WARN_UNUSED_FUNCTION' => 'NO',
+      'GCC_WARN_UNUSED_VARIABLE' => 'NO'
     }
   end
   

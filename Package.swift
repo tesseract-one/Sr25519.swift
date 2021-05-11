@@ -28,7 +28,8 @@ let package = Package(
                 .define("ED25519_CUSTOMRANDOM"),
                 .define("ED25519_CUSTOMHASH"),
                 .define("ED25519_NO_INLINE_ASM"),
-                .headerSearchPath("src")
+                .headerSearchPath("src"),
+                .headerSearchPath("src/ed25519-donna")
             ]
         ),
         .target(

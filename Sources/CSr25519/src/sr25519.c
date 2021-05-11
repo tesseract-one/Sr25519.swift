@@ -9,7 +9,7 @@
 void divide_scalar_bytes_by_cofactor(uint8_t *scalar, size_t scalar_len) {
     uint8_t low = 0;
 
-    for (int i = scalar_len - 1; i >= 0; i--) {
+    for (ptrdiff_t i = scalar_len - 1; i >= 0; i--) {
         uint8_t r = scalar[i] & 7;
         scalar[i] >>= 3;
         scalar[i] += low;

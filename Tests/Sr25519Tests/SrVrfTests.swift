@@ -7,8 +7,6 @@
 
 import XCTest
 @testable import Sr25519
-import CSr25519
-import Sr25519Helpers
 
 final class Sr25519VrfTests: XCTestCase {
     let kpData = "88dca235b034ac1a0e6aa9bfe3e919f74eb7d726345bec42979e6f1a20905e58ac5ea3a293dfd93859ee64a5b825937753864c19be857f045758dcae10259ba1049b21bb9cb88471b9dadb50b925135cfb291a463043635b58599a2d01b1fd18".hexData!

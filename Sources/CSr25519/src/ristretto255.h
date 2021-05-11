@@ -5,7 +5,7 @@
 #ifndef __ristretto255_H__
 #define __ristretto255_H__
 
-#include "ed25519-donna/ed25519-donna.h"
+#include "ed25519-donna.h"
 
 typedef uint8_t ristretto255_hash_output[64];
 
