@@ -38,7 +38,6 @@ final class Sr25519KeyPairTests: XCTestCase {
         XCTAssertNotNil(keyPair)
         
         let signature = keyPair?.sign(message: message)
-        print("Signature", Array(signature!.raw))
         let valid = keyPair.flatMap { kp in
             signature.flatMap { sig in
                 (kp, sig)
