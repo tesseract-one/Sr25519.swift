@@ -48,6 +48,7 @@ public struct Sr25519KeyPair {
     public var publicKey: Sr25519PublicKey { _public }
     
     public var raw: Data { TCArray.get(raw: keyPair) }
+    public var privateRaw: Data { TCArray.get(raw: _private) }
     
     public func derive(chainCode: Sr25519ChainCode, hard: Bool) -> Sr25519KeyPair {
         var out: sr25519_keypair = TCArray.new()

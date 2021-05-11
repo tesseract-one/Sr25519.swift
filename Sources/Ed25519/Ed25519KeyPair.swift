@@ -52,6 +52,7 @@ public struct Ed25519KeyPair {
     public var publicKey: Ed25519PublicKey { _public }
     
     public var raw: Data { TCArray.get(raw: _private) + TCArray.get(raw: _public.key) }
+    public var privateRaw: Data { TCArray.get(raw: _private) }
     
     public func sign(message: Data) -> Ed25519Signature {
         var out: ed25519_signature = TCArray.new()
