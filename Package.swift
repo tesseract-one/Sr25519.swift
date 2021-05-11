@@ -1,46 +1,44 @@
-// swift-tools-version:5.3
+// swift-tools-version:5.0
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
 
-let useLocalBinary = false
-
-var package = Package(
+let package = Package(
     name: "Sr25519",
-    platforms: [.iOS(.v11), .macOS(.v10_12)],
     products: [
         .library(
             name: "Sr25519",
-            targets: ["Sr25519"])
+            targets: ["Sr25519"]),
+        .library(
+            name: "Ed25519",
+            targets: ["Ed25519"])
     ],
     dependencies: [],
     targets: [
         .target(
             name: "Sr25519",
+            dependencies: ["CSr25519", "Sr25519Helpers"]),
+        .target(
+            name: "Ed25519",
+            dependencies: ["CSr25519", "Sr25519Helpers"]),
+        .target(
+            name: "CSr25519",
+            dependencies: [],
+            cSettings: [
+                .define("ED25519_CUSTOMRANDOM"),
+                .define("ED25519_CUSTOMHASH"),
+                .define("ED25519_NO_INLINE_ASM"),
+                .headerSearchPath("src")
+            ]
+        ),
+        .target(
+            name: "Sr25519Helpers",
             dependencies: ["CSr25519"]),
         .testTarget(
             name: "Sr25519Tests",
-            dependencies: ["Sr25519"])
+            dependencies: ["Sr25519"]),
+        .testTarget(
+            name: "Ed25519Tests",
+            dependencies: ["Ed25519"])
     ]
 )
-
-#if os(Linux)
-    package.targets.append(
-        .systemLibrary(name: "CSr25519")
-    )
-#else
-    if useLocalBinary {
-        package.targets.append(
-            .binaryTarget(
-                name: "CSr25519",
-                path: "binaries/CSr25519.xcframework")
-        )
-    } else {
-        package.targets.append(
-            .binaryTarget(
-                name: "CSr25519",
-                url: "https://github.com/tesseract-one/sr25519.swift/releases/download/0.0.4/CSr25519.binaries.zip",
-                checksum: "08fcaf9e09b9c53a1823cc6131ed2d9b55f6ba595e4fd39cee7f77a51973921a")
-        )
-    }
-#endif

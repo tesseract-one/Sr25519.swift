@@ -10,13 +10,13 @@ import XCTest
 
 final class Sr25519SeedTests: XCTestCase {
     func testFromData() {
-        AssertNoThrow(try Seed(seed: Data(repeating: 0, count: 32)))
-        AssertThrowsError(try Seed(seed: Data(repeating: 0, count: 31)))
-        AssertThrowsError(try Seed(seed: Data(repeating: 0, count: 33)))
-        AssertThrowsError(try Seed(seed: Data()))
+        AssertNoThrow(try Sr25519Seed(raw: Data(repeating: 0, count: 32)))
+        AssertThrowsError(try Sr25519Seed(raw: Data(repeating: 0, count: 31)))
+        AssertThrowsError(try Sr25519Seed(raw: Data(repeating: 0, count: 33)))
+        AssertThrowsError(try Sr25519Seed(raw: Data()))
     }
     
     func testRandom() {
-        XCTAssertNotEqual(Seed().data, Seed().data)
+        XCTAssertNotEqual(Sr25519Seed().raw, Sr25519Seed().raw)
     }
 }

@@ -1,5 +1,0 @@
-module CSr25519 {
-    umbrella header "csr25519.h"
-    link "sr25519crust"
-    export *
-}
