@@ -51,8 +51,12 @@ final class Sr25519KeyPairTests: XCTestCase {
         let message = "hello world".data(using: .utf8)!
         XCTAssertNotNil(keyPair)
         
-        let signature = (keyPair?.sign(message: message)).flatMap { sig in
-            try? Sr25519Signature(raw: Data([0]) + sig.raw.suffix(Sr25519Signature.size-1))
+        let signature: Sr25519Signature? = (keyPair?.sign(message: message)).flatMap { sig in
+            var bytes = sig.raw
+            bytes[0] = bytes[0] << 2
+            bytes[2] = bytes[2] << 3
+            bytes[8] = bytes[8] << 1
+            return try? Sr25519Signature(raw: bytes)
         }
         XCTAssertNotNil(signature)
         

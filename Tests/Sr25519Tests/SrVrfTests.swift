@@ -22,7 +22,9 @@ final class Sr25519VrfTests: XCTestCase {
             XCTAssertEqual(valid1, true)
             
             var sigData = signature.signature.raw
-            sigData[5] = UInt8(clamping: UInt16(sigData[5]) + 3)
+            sigData[0] = sigData[0] << 2
+            sigData[2] = sigData[2] << 3
+            sigData[8] = sigData[8] << 1
             if let signature = AssertNoThrow(try Sr25519VrfSignature(raw: sigData)) {
                 let valid2 = keyPair.vrfVerify(message: message, signature: signature, threshold: limit)
                 XCTAssertEqual(valid2, false)
