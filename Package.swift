@@ -13,7 +13,9 @@ let package = Package(
             name: "Ed25519",
             targets: ["Ed25519"])
     ],
-    dependencies: [],
+    dependencies: [
+        .package(url: "https://github.com/tesseract-one/UncommonCrypto.swift.git", from: "0.1.0")
+    ],
     targets: [
         .target(
             name: "Sr25519",
@@ -23,11 +25,12 @@ let package = Package(
             dependencies: ["CSr25519", "Sr25519Helpers"]),
         .target(
             name: "CSr25519",
-            dependencies: [],
+            dependencies: ["CUncommonCrypto"],
             cSettings: [
                 .define("ED25519_CUSTOMRANDOM"),
                 .define("ED25519_CUSTOMHASH"),
                 .define("ED25519_NO_INLINE_ASM"),
+                .define("SR25519_CUSTOMHASH"),
                 .headerSearchPath("src"),
                 .headerSearchPath("src/ed25519-donna")
             ]

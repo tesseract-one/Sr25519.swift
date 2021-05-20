@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'Sr25519'
-  s.version          = '0.1.2'
+  s.version          = '0.1.3'
   s.summary          = 'Swift wrapper for sr25519-donna C library'
   
   s.description      = <<-DESC
@@ -27,10 +27,12 @@ Swift wrapper for sr25519-donna C library. Provides Sr25519 and Ed25519 wrappers
     ss.public_header_files = 'Sources/CSr25519/src/sr25519.h', 'Sources/CSr25519/src/sr25519-random*.h', 'Sources/CSr25519/src/ed25519-donna/ed25519.h'
     
     ss.pod_target_xcconfig = {
-      'GCC_PREPROCESSOR_DEFINITIONS' => '$(inherited) ED25519_CUSTOMRANDOM ED25519_CUSTOMHASH ED25519_NO_INLINE_ASM',
+      'GCC_PREPROCESSOR_DEFINITIONS' => '$(inherited) ED25519_CUSTOMRANDOM ED25519_CUSTOMHASH ED25519_NO_INLINE_ASM SR25519_CUSTOMHASH',
       'GCC_WARN_UNUSED_FUNCTION' => 'NO',
       'GCC_WARN_UNUSED_VARIABLE' => 'NO'
     }
+    
+    ss.dependency 'UncommonCrypto', '~> 0.1.0'
   end
   
   s.subspec 'Helpers' do |ss|
