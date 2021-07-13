@@ -204,6 +204,31 @@ void sr25519_derive_public_soft(sr25519_public_key public_out, const sr25519_pub
     ristretto_encode(public_out, P);
 }
 
+void sr25519_from_ed25519_bytes(sr25519_secret_key secret_out,
+                                const sr25519_secret_key secret_ptr) {
+    sr25519_secret_key_key key = {0};
+
+    memcpy(key, secret_ptr, 32);
+
+    divide_scalar_bytes_by_cofactor(key, 32);
+    key[31] &= 0b01111111;
+
+    memcpy(secret_out, key, 32);
+    memcpy(secret_out + 32, secret_ptr + 32, 32);
+}
+
+void sr25519_to_ed25519_bytes(sr25519_secret_key secret_out,
+                              const sr25519_secret_key secret_ptr) {
+    sr25519_secret_key_key key = {0};
+
+    memcpy(key, secret_ptr, 32);
+
+    multiply_scalar_bytes_by_cofactor(key, 32);
+
+    memcpy(secret_out, key, 32);
+    memcpy(secret_out + 32, secret_ptr + 32, 32);
+}
+
 void sr25519_sign(sr25519_signature signature_out, const sr25519_public_key public, const sr25519_secret_key secret, const uint8_t *message, unsigned long message_length) {
     sr25519_secret_key_key secret_key = {0};
     sr25519_secret_key_nonce secret_nonce = {0};

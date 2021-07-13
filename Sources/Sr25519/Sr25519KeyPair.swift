@@ -12,7 +12,7 @@ import Sr25519Helpers
 #endif
 
 public struct Sr25519KeyPair {
-    private let _private: sr25519_secret_key
+    private let _private: Sr25519PrivateKey
     private let _public: Sr25519PublicKey
     
     public init(seed: Sr25519Seed) {
@@ -33,22 +33,27 @@ public struct Sr25519KeyPair {
         }
         self.init(keypair: try! TCArray.new(raw: raw))
     }
+
+    public init(privateKey: Sr25519PrivateKey, publicKey: Sr25519PublicKey) {
+        self._private = privateKey
+        self._public = publicKey
+    }
     
     init(keypair: sr25519_keypair) {
         (_private, _public) = TCArray
             .pointer(of: UInt8.self)
             .wrap(keypair) { u8 in
                 return (
-                    try! TCArray.new(raw: Data(u8[0..<Self.secretSize])),
+                    Sr25519PrivateKey(key: try! TCArray.new(raw: Data(u8[0..<Self.secretSize]))),
                     Sr25519PublicKey(key: try! TCArray.new(raw: Data(u8[Self.secretSize..<Self.size])))
                 )
             }
     }
     
     public var publicKey: Sr25519PublicKey { _public }
+    public var privateKey: Sr25519PrivateKey { _private }
     
     public var raw: Data { TCArray.get(raw: keyPair) }
-    public var privateRaw: Data { TCArray.get(raw: _private) }
     
     public func derive(chainCode: Sr25519ChainCode, hard: Bool) -> Sr25519KeyPair {
         var out: sr25519_keypair = TCArray.new()
@@ -85,7 +90,7 @@ public struct Sr25519KeyPair {
     }
     
     var keyPair: sr25519_keypair {
-        try! TCArray.new(raw: TCArray.get(raw: _private) + TCArray.get(raw: _public.key))
+        try! TCArray.new(raw: TCArray.get(raw: _private.key) + TCArray.get(raw: _public.key))
     }
     
     public static let size: Int = MemoryLayout<sr25519_keypair>.size

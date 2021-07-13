@@ -121,6 +121,21 @@ let valid = keypair.vrfVerify(message: message, signature: signature, threshold:
 print("Is valid:", valid)
 ```
 
+### Private key conversion to uniform format
+
+```Swift
+import Sr25519
+
+// Creating new KeyPair from random seed by default in ed25519 format
+let keypair = Sr25519KeyPair(seed: Sr25519Seed())
+
+// Retrieve raw private key in uniform format compatible with rust implementation
+let uniformRawPrivateKey = keypair.privateKey.toUniformRaw()
+
+// Initialize private key from raw key in uniform format
+let privateKey = try Sr25519PrivateKey(uniformRaw: uniformRawPrivateKey)
+```
+
 ## License
 
 Sr25519.swift can be used, distributed and modified under [the Apache 2.0 license](LICENSE).
