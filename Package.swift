@@ -1,10 +1,10 @@
-// swift-tools-version:5.0
+// swift-tools-version:5.4
 // The swift-tools-version declares the minimum version of Swift required to build this package.
-
 import PackageDescription
 
 let package = Package(
     name: "Sr25519",
+    platforms: [.macOS(.v10_13), .iOS(.v11), .tvOS(.v11), .watchOS(.v6)],
     products: [
         .library(
             name: "Sr25519",
@@ -14,7 +14,8 @@ let package = Package(
             targets: ["Ed25519"])
     ],
     dependencies: [
-        .package(url: "https://github.com/tesseract-one/UncommonCrypto.swift.git", from: "0.1.0")
+        .package(url: "https://github.com/tesseract-one/UncommonCrypto.swift.git",
+                 .upToNextMinor(from: "0.2.1"))
     ],
     targets: [
         .target(
@@ -25,7 +26,9 @@ let package = Package(
             dependencies: ["CSr25519", "Sr25519Helpers"]),
         .target(
             name: "CSr25519",
-            dependencies: ["CUncommonCrypto"],
+            dependencies: [
+                .product(name: "CUncommonCrypto", package: "UncommonCrypto.swift")
+            ],
             cSettings: [
                 .define("ED25519_CUSTOMRANDOM"),
                 .define("ED25519_CUSTOMHASH"),

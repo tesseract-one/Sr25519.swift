@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'Sr25519'
-  s.version          = '0.1.3'
+  s.version          = '999.99.9'
   s.summary          = 'Swift wrapper for sr25519-donna C library'
   
   s.description      = <<-DESC
@@ -13,12 +13,10 @@ Swift wrapper for sr25519-donna C library. Provides Sr25519 and Ed25519 wrappers
   s.author           = { 'Tesseract Systems, Inc.' => 'info@tesseract.one' }
   s.source           = { :git => 'https://github.com/tesseract-one/Sr25519.swift.git', :tag => s.version.to_s }
 
-  s.ios.deployment_target = '9.0'
-  s.osx.deployment_target = '10.10'
-  s.tvos.deployment_target = '9.0'
-  s.watchos.deployment_target = '2.0'
-  
-  s.swift_versions = ['5', '5.1', '5.2', '5.3']
+  s.swift_version    = '5.4'
+
+  base_platforms     = { :ios => '11.0', :osx => '10.13', :tvos => '11.0' }
+  s.platforms        = base_platforms.merge({ :watchos => '6.0' })
   
   s.module_name = 'Sr25519'
   
@@ -32,7 +30,7 @@ Swift wrapper for sr25519-donna C library. Provides Sr25519 and Ed25519 wrappers
       'GCC_WARN_UNUSED_VARIABLE' => 'NO'
     }
     
-    ss.dependency 'UncommonCrypto', '~> 0.1.0'
+    ss.dependency 'UncommonCrypto', '~> 0.2.1'
   end
   
   s.subspec 'Helpers' do |ss|
@@ -47,9 +45,9 @@ Swift wrapper for sr25519-donna C library. Provides Sr25519 and Ed25519 wrappers
     ss.dependency 'Sr25519/Helpers'
     ss.dependency 'Sr25519/CSr25519'
     
-    ss.test_spec 'Ed25519Tests' do |test_spec|
-      test_spec.platforms = {:ios => '9.0', :osx => '10.10', :tvos => '9.0'}
-      test_spec.source_files = 'Tests/Ed25519Tests/**/*.swift'
+    ss.test_spec 'Ed25519Tests' do |ts|
+      ts.platforms = base_platforms
+      ts.source_files = 'Tests/Ed25519Tests/**/*.swift'
     end
   end
 
@@ -59,9 +57,9 @@ Swift wrapper for sr25519-donna C library. Provides Sr25519 and Ed25519 wrappers
     ss.dependency 'Sr25519/Helpers'
     ss.dependency 'Sr25519/CSr25519'
     
-    ss.test_spec 'Sr25519Tests' do |test_spec|
-      test_spec.platforms = {:ios => '9.0', :osx => '10.10', :tvos => '9.0'}
-      test_spec.source_files = 'Tests/Sr25519Tests/**/*.swift'
+    ss.test_spec 'Sr25519Tests' do |ts|
+      ts.platforms = base_platforms
+      ts.source_files = 'Tests/Sr25519Tests/**/*.swift'
     end
   end
 
