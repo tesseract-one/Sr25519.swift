@@ -7,7 +7,7 @@ jobs:
     runs-on: macOS-13
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Select Xcode
         run: sudo xcode-select -s /Applications/Xcode_14.3.1.app
       - name: Set release version
